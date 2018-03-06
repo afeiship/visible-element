@@ -54,9 +54,7 @@ export default class extends Component {
         data-direction='column'>
           { this. elements }
         </div>
-        <aside className="right">
-          { right }
-        </aside>
+        { right && <aside className="right"> {right} </aside> }
       </section>
     );
   }
