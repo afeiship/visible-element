@@ -12,7 +12,7 @@ export default class extends Component {
     gap: PropTypes.string,
     align: PropTypes.string,
     justify: PropTypes.string,
-    right: PropTypes.element,
+    aside: PropTypes.element,
     elements: PropTypes.array
   };
 
@@ -35,7 +35,7 @@ export default class extends Component {
   render() {
     const {
       className,
-      right,
+      aside,
       gap,
       align,
       justify,
@@ -54,7 +54,7 @@ export default class extends Component {
         data-direction='column'>
           { this. elements }
         </div>
-        { right && <aside className="right"> {right} </aside> }
+        { aside && <aside className="right"> {aside} </aside> }
       </section>
     );
   }
