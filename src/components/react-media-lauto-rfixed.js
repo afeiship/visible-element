@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component, cloneElement } from 'react';
 
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
@@ -24,6 +24,14 @@ export default class extends Component {
   };
   /*===properties end===*/
 
+  get elements(){
+    const { elements } = this.props;
+    return elements.map((elem,index)=>{
+      const newProps = objectAssign({ key: index }, elem.props);
+      return cloneElement(elem,newProps);
+    })
+  }
+
   render() {
     const {
       className,
@@ -44,7 +52,8 @@ export default class extends Component {
         data-align="normal"
         data-justify={justify}
         data-direction='column'>
-          {elements.map(item => item)}</div>
+          { this. elements }
+        </div>
         <aside className="right">
           { right }
         </aside>
