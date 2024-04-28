@@ -14,6 +14,16 @@ class VisibleElement {
   private readonly element: HTMLElement;
   private readonly options: VisibleElementOptions;
 
+  private immediatelyShow() {
+    this.element.removeAttribute('hidden');
+    if (this.isOpenedElement) (this.element as HTMLDialogElement).show();
+  }
+
+  private immediatelyClose() {
+    this.element.hidden = true;
+    if (this.isOpenedElement) (this.element as HTMLDialogElement).close();
+  }
+
   constructor(inElement: HTMLElement, inOptions?: VisibleElementOptions) {
     this.element = inElement;
     this.options = inOptions || {};
@@ -23,11 +33,12 @@ class VisibleElement {
     return 'open' in this.element;
   }
 
-  get isVisible() {
+  get visible() {
     return this.element.offsetWidth > 0 && this.element.offsetHeight > 0;
   }
 
   show() {
+    if (this.visible) return;
     const { onShow, onShowed, onChange } = this.options;
     onShow?.();
     onChange?.('show');
@@ -40,6 +51,7 @@ class VisibleElement {
   }
 
   close() {
+    if (!this.visible) return;
     const { onClose, onClosed, onChange } = this.options;
     onClose?.();
     onChange?.('close');
@@ -51,14 +63,16 @@ class VisibleElement {
     }, EventOptions);
   }
 
-  private immediatelyShow() {
-    this.element.removeAttribute('hidden');
-    if (this.isOpenedElement) (this.element as HTMLDialogElement).show();
+  toggle() {
+    this.to(!this.visible);
   }
 
-  private immediatelyClose() {
-    this.element.hidden = true;
-    if (this.isOpenedElement) (this.element as HTMLDialogElement).close();
+  to(value: boolean) {
+    if (value) {
+      this.show();
+    } else {
+      this.close();
+    }
   }
 }
 

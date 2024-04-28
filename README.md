@@ -13,14 +13,20 @@ npm install @jswork/visible-element
 
 ## usage
 ```js
-import visibleElement from '@jswork/visible-element';
+import VisibleElement, { VisibleState } from '@jswork/visible-element';
 
-// usage goes here.
-```
+const el = document.getElementById('#dialog1');
+const ve = new VisibleElement(el, {
+  onChange: (state: VisibleState) => {
+    console.log('state:', state);
+  }
+});
 
-## types
-```ts
-/// <reference types="@jswork/visible-element/global.d.ts" />
+// methods: show, close, toggle, to
+ve.show();
+ve.close();
+ve.toggle();
+ve.to(true);
 ```
 
 ## license
