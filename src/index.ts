@@ -1,3 +1,9 @@
+/**
+ * @description 实现可见性管理的类
+ * 说明一下，为什么是 show/close，而不是 show-hide
+ * 对应的是标准 HTML dialog 的方法设计，起初也觉得不是特别合理，但看到除了 Dialog之外，还有 Details、Summary 等元素，这样设计就显得合理了。
+ * 另外，show/close 也更贴近实际场景，毕竟用户的操作习惯往往是先展示内容，再决定是否关闭。
+ */
 const EventOptions = { once: true };
 
 export type VisibleState = 'show' | 'showed' | 'close' | 'closed';
