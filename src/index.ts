@@ -40,6 +40,7 @@ class VisibleElement {
   }
 
   get visible() {
+    if(!this.element) return false;
     return this.element.offsetWidth > 0 && this.element.offsetHeight > 0;
   }
 
