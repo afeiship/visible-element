@@ -46,6 +46,7 @@ class VisibleElement {
 
   show() {
     if (this.visible) return;
+    if(!this.element) return;
     const { onShow, onShowed, onChange } = this.options;
     onShow?.();
     onChange?.('show');
@@ -59,6 +60,7 @@ class VisibleElement {
 
   close() {
     if (!this.visible) return;
+    if(!this.element) return;
     const { onClose, onClosed, onChange } = this.options;
     onClose?.();
     onChange?.('close');
