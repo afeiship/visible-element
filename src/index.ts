@@ -40,13 +40,17 @@ class VisibleElement {
   }
 
   get visible() {
-    if(!this.element) return false;
+    if (!this.element) return false;
     return this.element.offsetWidth > 0 && this.element.offsetHeight > 0;
   }
 
+  set visible(value: boolean) {
+    this.to(value);
+  }
+
   show() {
+    if (!this.element) return;
     if (this.visible) return;
-    if(!this.element) return;
     const { onShow, onShowed, onChange } = this.options;
     onShow?.();
     onChange?.('show');
@@ -59,8 +63,8 @@ class VisibleElement {
   }
 
   close() {
+    if (!this.element) return;
     if (!this.visible) return;
-    if(!this.element) return;
     const { onClose, onClosed, onChange } = this.options;
     onClose?.();
     onChange?.('close');
@@ -77,11 +81,8 @@ class VisibleElement {
   }
 
   to(value: boolean) {
-    if (value) {
-      this.show();
-    } else {
-      this.close();
-    }
+    const method = value ? 'show' : 'close';
+    this[method]();
   }
 }
 
