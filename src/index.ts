@@ -9,7 +9,6 @@ const EventOptions = { once: true };
 export type VisibleState = 'show' | 'showed' | 'close' | 'closed';
 
 interface VisibleElementOptions {
-  minDuration?: number;
   onShow?: () => void;
   onShowed?: () => void;
   onClose?: () => void;
@@ -18,10 +17,8 @@ interface VisibleElementOptions {
 }
 
 class VisibleElement {
-  public element: HTMLElement;
-  public options: VisibleElementOptions;
-  private latestTs = 0;
-  private timerId: number | undefined;
+  private readonly element: HTMLElement;
+  private readonly options: VisibleElementOptions;
 
   private immediatelyShow() {
     this.element.removeAttribute('hidden');
@@ -33,19 +30,9 @@ class VisibleElement {
     if (this.isOpenedElement) (this.element as HTMLDialogElement).close();
   }
 
-  private checkMinDuration() {
-    const nowTs = Date.now();
-    const minDuration = this.options.minDuration as number;
-    if (nowTs - this.latestTs < minDuration) {
-      return false;
-    }
-    this.latestTs = nowTs;
-    return true;
-  }
-
   constructor(inElement: HTMLElement, inOptions?: VisibleElementOptions) {
     this.element = inElement;
-    this.options = inOptions || { minDuration: 100 };
+    this.options = inOptions || {};
   }
 
   get isOpenedElement() {
@@ -65,7 +52,6 @@ class VisibleElement {
     if (!this.element) return;
     if (this.visible) return;
     const { onShow, onShowed, onChange } = this.options;
-    this.latestTs = Date.now();
     onShow?.();
     onChange?.('show');
     this.immediatelyShow();
@@ -79,14 +65,7 @@ class VisibleElement {
   close() {
     if (!this.element) return;
     if (!this.visible) return;
-    const { onClose, onClosed, onChange, minDuration } = this.options;
-    if (!this.checkMinDuration()) {
-      if (this.timerId) clearTimeout(this.timerId);
-      this.timerId = setTimeout(() => {
-        this.close();
-      }, minDuration as number) as unknown as number;
-      return;
-    }
+    const { onClose, onClosed, onChange } = this.options;
     onClose?.();
     onChange?.('close');
     this.element.setAttribute('data-visible', 'false');
