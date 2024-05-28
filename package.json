@@ -1,6 +1,6 @@
 {
   "name": "@jswork/visible-element",
-  "version": "1.0.7",
+  "version": "1.0.9",
   "type": "module",
   "description": "Visible element with animation.",
   "main": "dist/index.cjs.js",
